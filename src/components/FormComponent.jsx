@@ -25,6 +25,28 @@ const FormComponent = () => {
     e.preventDefault(); // Prevent the default form submission behavior
     console.log("Form Data:", formData);
 
+    const sendData = async () => {
+      try {
+        const response = await fetch("http://localhost:3002/api/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log(`Server Response: ${JSON.stringify(data)}`);
+
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    sendData();
+
     setFormData(initialFormData); // Reset form data
   };
 
@@ -38,7 +60,8 @@ const FormComponent = () => {
         <div>
           <label
             htmlFor="firstName"
-            className="block text-lg font-medium text-lime-400 pb-2">
+            className="block text-lg font-medium text-lime-400 pb-2"
+          >
             First Name
           </label>
           <input
@@ -54,7 +77,8 @@ const FormComponent = () => {
         <div>
           <label
             htmlFor="lastName"
-            className="block text-lg font-medium  text-lime-400 pb-2">
+            className="block text-lg font-medium  text-lime-400 pb-2"
+          >
             Last Name
           </label>
           <input
@@ -70,7 +94,8 @@ const FormComponent = () => {
         <div>
           <label
             htmlFor="favoriteLanguage"
-            className="block text-lg font-medium  text-lime-400 pb-2">
+            className="block text-lg font-medium  text-lime-400 pb-2"
+          >
             Favorite Coding Language
           </label>
           <select
@@ -79,7 +104,8 @@ const FormComponent = () => {
             required
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-yellow-200 sm:text-sm rounded-md"
             value={formData.favoriteLanguage}
-            onChange={handleChange}>
+            onChange={handleChange}
+          >
             <option value="">Select a Language</option>
             <option value="JavaScript">JavaScript</option>
             <option value="Python">Python</option>
@@ -99,13 +125,15 @@ const FormComponent = () => {
           />
           <label
             htmlFor="isStudent"
-            className="ml-2 block text-lg font-medium  text-lime-400 pb-2">
+            className="ml-2 block text-lg font-medium  text-lime-400 pb-2"
+          >
             Is Student
           </label>
         </div>
         <button
           type="submit"
-          className="py-2 px-4 text-slate-900 bg-yellow-200 font-bold rounded-md hover:bg-indigo-600 hover:text-white hover:scale-105 transition-all">
+          className="py-2 px-4 text-slate-900 bg-yellow-200 font-bold rounded-md hover:bg-indigo-600 hover:text-white hover:scale-105 transition-all"
+        >
           Submit
         </button>
       </form>
