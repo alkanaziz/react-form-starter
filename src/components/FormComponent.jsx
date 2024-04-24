@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const FormComponent = () => {
@@ -25,24 +26,33 @@ const FormComponent = () => {
     e.preventDefault(); // Prevent the default form submission behavior
     console.log("Form Data:", formData);
 
+    // const sendData = async () => {
+    //   try {
+    //     const response = await fetch("http://localhost:3002/api/users", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(formData),
+    //     });
+
+    //     if (!response.ok) {
+    //       throw new Error('Network response was not ok');
+    //     }
+
+    //     const data = await response.json();
+    //     console.log(`Server Response: ${JSON.stringify(data)}`);
+
+    //   } catch (error) {
+    //     console.error("Error:", error);
+    //   }
+    // };
+
     const sendData = async () => {
-      try {
-        const response = await fetch("http://localhost:3002/api/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+      const response = await axios.post(
+        "http://localhost:3002/api/users",
+        formData
+      );
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        console.log(`Server Response: ${JSON.stringify(data)}`);
-
-      } catch (error) {
-        console.error("Error:", error);
-      }
+      console.log(response.data)
     };
 
     sendData();
@@ -118,7 +128,6 @@ const FormComponent = () => {
             type="checkbox"
             name="isStudent"
             id="isStudent"
-            required
             className="h-4 w-4 text-indigo-600  border-gray-300 rounded"
             checked={formData.isStudent}
             onChange={handleChange}
